@@ -1,5 +1,6 @@
 import logo from "./images/logo-principal.png";
 import Container from "./Styles/Container";
+import { Link } from "react-router-dom";
 
 export default function SignUp(){
   return (
@@ -12,7 +13,9 @@ export default function SignUp(){
         <input type="text" placeholder="foto" />
         <button>Cadastrar</button>
       </form>
-      <p>Já tem uma conta? Faça login!</p>
+      <Link to="/">
+        <p>Já tem uma conta? Faça login!</p>
+      </Link>
     </Container>
   );
 }
