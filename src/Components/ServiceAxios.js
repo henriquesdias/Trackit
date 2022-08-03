@@ -38,3 +38,4 @@ function getHistory(){
   const promise = axios.get(`${BASE_URL}/habits/history/daily`);
   return promise;
 }
+export {signUp, login, createHabit, listHabits, deleteHabit, searchHabits, markHabitAsConcluded, markOffHabitAsConcluded, getHistory};

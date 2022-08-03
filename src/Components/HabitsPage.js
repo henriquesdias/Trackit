@@ -24,7 +24,7 @@ const BackGroundPage = styled.main`
   padding-top: 98px;
   font-family: 'Lexend Deca', sans-serif;
   p{
-    width: 80%;
+    width: 85%;
     margin: 28px auto 0 auto;
     font-size: 18px;
     color: #666666;
@@ -32,7 +32,7 @@ const BackGroundPage = styled.main`
 `;
 const MyHabits = styled.div`
   margin: 0 auto 0 auto;
-  width: 80%;
+  width: 85%;
   display: flex;
   align-items: center;
   justify-content: space-between;
