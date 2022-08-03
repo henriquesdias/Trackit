@@ -47,7 +47,6 @@ export default function SignUp(){
           name="email"
           onChange={handleForm}
           value={form.email}
-          blocked
           readOnly={blocked}
           required
         />
