@@ -6,7 +6,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: "Recursive", sans-serif;
+  font-family: "Lexend Deca", sans-serif;
   form {
     display: flex;
     flex-direction: column;

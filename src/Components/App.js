@@ -3,6 +3,7 @@ import GlobalStyle from "./reset";
 import Header from "./Header";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
+import HabitsPage from "./HabitsPage";
 
 export default function App() {
   return (
@@ -10,7 +11,8 @@ export default function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path="/" element={<LoginPage />}></Route>
+          <Route path="/habitos" element={<LoginPage />}></Route>
+          <Route path="/" element={<HabitsPage />}></Route>
           <Route path="/cadastro" element={<SignUp />}></Route>
         </Routes>
       </BrowserRouter>

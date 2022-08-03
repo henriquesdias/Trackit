@@ -18,7 +18,23 @@ function listHabits(){
   const promise = axios.get(`${BASE_URL}/habits`);
   return promise;
 }
-function deleteHabit(idHabit){
-  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`);
+function deleteHabit(idHabit,config){
+  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`, config);
+  return promise;
+}
+function searchHabits(config){
+  const promise = axios.get(`${BASE_URL}/habits/today`, config);
+  return promise;
+}
+function markHabitAsConcluded(idHabit,config){
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, config);
+  return promise;
+}
+function markOffHabitAsConcluded(idHabit){
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/uncheck`);
+  return promise;
+}
+function getHistory(){
+  const promise = axios.get(`${BASE_URL}/habits/history/daily`);
   return promise;
 }
