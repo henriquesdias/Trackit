@@ -15,19 +15,19 @@ function createHabit(body,config){
   return promise;
 }
 function listHabits(config){
-  const promise = axios.get(`${BASE_URL}/habits`, config);
+  const promise = axios.get(`${BASE_URL}/habits`, {}, config);
   return promise;
 }
 function deleteHabit(idHabit,config){
-  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`, config);
+  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`, {}, config);
   return promise;
 }
 function searchHabits(config){
-  const promise = axios.get(`${BASE_URL}/habits/today`, config);
+  const promise = axios.get(`${BASE_URL}/habits/today`,{}, config);
   return promise;
 }
 function markHabitAsConcluded(idHabit,config){
-  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, config);
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, {}, config);
   return promise;
 }
 function markOffHabitAsConcluded(idHabit){
