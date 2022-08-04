@@ -11,8 +11,8 @@ export default function App() {
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
-          <Route path="/" element={<LoginPage />}></Route>
-          <Route path="/habitos" element={<HabitsPage />}></Route>
+          <Route path="/habitos" element={<LoginPage />}></Route>
+          <Route path="/" element={<HabitsPage />}></Route>
           <Route path="/cadastro" element={<SignUp />}></Route>
         </Routes>
       </BrowserRouter>

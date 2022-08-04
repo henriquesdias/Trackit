@@ -14,8 +14,8 @@ function createHabit(body,config){
   const promise = axios.post(`${BASE_URL}/habits`, body, config);
   return promise;
 }
-function listHabits(){
-  const promise = axios.get(`${BASE_URL}/habits`);
+function listHabits(config){
+  const promise = axios.get(`${BASE_URL}/habits`, config);
   return promise;
 }
 function deleteHabit(idHabit,config){
