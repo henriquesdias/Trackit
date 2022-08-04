@@ -2,7 +2,9 @@ import Header from "./Header";
 import Footer from "./Footer";
 import styled from "styled-components";
 import { useState} from "react";
-function CreateHabit(setShowForm){
+import BackGroundPage from "./Styles/BackGroundPage";
+
+function CreateHabit(setHabitsCreated,habitsCreated){
   return (
     <CreateHabitStyle>
       <form>
@@ -17,7 +19,7 @@ function CreateHabit(setShowForm){
           <div>D</div>
         </Weekdays  >
         <ButtonsForm>
-          <div>Cancelar</div>
+          <div onClick={()=> console.log(habitsCreated)}>Cancelar</div>
           <button>Salvar</button>
         </ButtonsForm>
       </form>
@@ -25,16 +27,16 @@ function CreateHabit(setShowForm){
   );
 }
 export default function HabitsPage(){
-  const [showForm , setShowForm] = useState(false);
+  const [habitsCreated , setHabitsCreated] = useState([]);
   return (
     <>
       <Header />
       <BackGroundPage>
         <MyHabits>
           <span>Meus hábitos</span>
-          <AddHabit onClick={()=> setShowForm(true)}>+</AddHabit>
+          <AddHabit onClick={()=> setHabitsCreated([...habitsCreated, <CreateHabit setHabitsCreated={setHabitsCreated} habitsCreated={habitsCreated}/>])}>+</AddHabit>
         </MyHabits>
-        {showForm ? <CreateHabit setShowForm={setShowForm}/> : ""}
+        {habitsCreated}
         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
       </BackGroundPage>
       <Footer />
@@ -107,29 +109,13 @@ const CreateHabitStyle = styled.div`
     }
   }
 `
-const BackGroundPage = styled.main`
-  background-color: #f2f2f2;
-  width: 100%;
-  min-height: 100vh;
-  padding-top: 98px;
-  font-family: 'Lexend Deca', sans-serif;
-  p{
-    width: 85%;
-    margin: 28px auto 0 auto;
-    font-size: 18px;
-    color: #666666;
-  }
-`;
+
 const MyHabits = styled.div`
   margin: 0 auto 0 auto;
   width: 85%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  span{
-    font-size: 23px;
-    color: #126BA5;
-  }
 `
 const AddHabit = styled.div`
   background-color: #52B6FF;

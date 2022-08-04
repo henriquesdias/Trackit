@@ -4,6 +4,7 @@ import Header from "./Header";
 import LoginPage from "./LoginPage";
 import SignUp from "./SignUp";
 import HabitsPage from "./HabitsPage";
+import Historic from "./Historic";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/habitos" element={<LoginPage />}></Route>
           <Route path="/" element={<HabitsPage />}></Route>
           <Route path="/cadastro" element={<SignUp />}></Route>
+          <Route path="/historico" element={<Historic />}></Route>
         </Routes>
       </BrowserRouter>
     </>

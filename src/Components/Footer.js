@@ -5,11 +5,11 @@ import styled from "styled-components";
 export default function Footer(){
   return (
     <FooterStyle>
-      <Link to="/habitos">
+      <FooterLink to="/habitos">
         <p>Hábitos</p>
-      </Link>
+      </FooterLink>
       <div>
-        <Link to="/hoje">
+        <FooterLink to="/hoje">
           <CircularProgress>
             <CircularProgressbar
               value={25}
@@ -24,15 +24,17 @@ export default function Footer(){
               })}
             />
           </CircularProgress>
-        </Link>
+        </FooterLink>
       </div>
-      <Link to="/historico">
+      <FooterLink to="/historico">
         <p>Histórico</p>
-      </Link>
+      </FooterLink>
     </FooterStyle>
   );
 }
-
+const FooterLink = styled(Link)`
+text-decoration: none;
+`
 const FooterStyle = styled.footer`
   position: fixed;
   bottom: 0;

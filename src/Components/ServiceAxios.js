@@ -34,8 +34,18 @@ function markOffHabitAsConcluded(idHabit){
   const promise = axios.post(`${BASE_URL}/habits/${idHabit}/uncheck`);
   return promise;
 }
-function getHistory(){
+function getHistoric(){
   const promise = axios.get(`${BASE_URL}/habits/history/daily`);
   return promise;
 }
-export {signUp, login, createHabit, listHabits, deleteHabit, searchHabits, markHabitAsConcluded, markOffHabitAsConcluded, getHistory};
+export {
+  signUp,
+  login,
+  createHabit,
+  listHabits,
+  deleteHabit,
+  searchHabits,
+  markHabitAsConcluded,
+  markOffHabitAsConcluded,
+  getHistoric,
+};
