@@ -10,13 +10,13 @@ function CreateHabit({habitsCreated,setHabitsCreated}){
       <form>
         <input type="text" placeholder="nome do hábito" />
         <Weekdays>
-          <div>S</div>
-          <div>T</div>
-          <div>Q</div>
-          <div>Q</div>
-          <div>S</div>
-          <div>S</div>
-          <div>D</div>
+          <Weekday>D</Weekday>
+          <Weekday>S</Weekday>
+          <Weekday>T</Weekday>
+          <Weekday>Q</Weekday>
+          <Weekday>Q</Weekday>
+          <Weekday>S</Weekday>
+          <Weekday>S</Weekday>
         </Weekdays  >
         <ButtonsForm>
           <div>Cancelar</div>
@@ -43,6 +43,31 @@ export default function HabitsPage(){
     </>
   );
 }
+function Weekday({children}){
+  const [background , setBackground] = useState("white");
+  const [color, setColor] = useState("#d4d4d4");
+  return <WeekdayStyle background={background} color={color} onClick={()=> {
+    if (background === "white") {
+      setBackground("#d4d4d4");
+      setColor("white");
+    } else {
+      setBackground("white");
+      setColor("#d4d4d4");
+    }
+  }}>{children}</WeekdayStyle>
+}
+const WeekdayStyle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${props => props.color};
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  font-size: 20px;
+  background-color: ${props => props.background};
+`;
 const ButtonsForm = styled.div`
   width: 100%;
   display: flex;
@@ -74,17 +99,7 @@ const Weekdays = styled.div`
 display: flex;
 width: 234px;
 justify-content: space-between;
-  div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #D4D4D4;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #D4D4D4;
-    border-radius: 5px;
-    font-size: 20px;   
-  }
+
 `
 const CreateHabitStyle = styled.div`
   max-width: 340px;

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import trackit from "./images/trackit.png";
-import bob from "./images/bob.png";
 import UserContext from "./UserContext";
 import { useContext } from "react";
 
@@ -10,7 +9,7 @@ export default function Header(){
     <Container>
       <img src={trackit} alt="trackit" />
       <ImageProfile>
-        <img src={user.image} alt="bob esponja" />
+        <img src={user.image} alt="image profile" />
       </ImageProfile>
     </Container>
   );
