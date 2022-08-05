@@ -2,11 +2,11 @@ import logo from "./images/logo-principal.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Container from "./Styles/Container";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { login } from "./ServiceAxios";
-
+import UserContext from "./UserContext";
 
 
 export default function LoginPage(){
@@ -15,6 +15,7 @@ export default function LoginPage(){
     email: "",
     password: "",
   })
+  const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
   function submitData(event){
     event.preventDefault();
@@ -25,6 +26,7 @@ export default function LoginPage(){
       setBlocked(false);
     });
     promise.then( answer => {
+      setUser(answer.data)
       navigate("/hoje");
     });
   }

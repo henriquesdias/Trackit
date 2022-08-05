@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useState} from "react";
 import BackGroundPage from "./Styles/BackGroundPage";
 
-function CreateHabit(setHabitsCreated,habitsCreated){
+function CreateHabit({habitsCreated,setHabitsCreated}){
   return (
     <CreateHabitStyle>
       <form>
@@ -19,7 +19,7 @@ function CreateHabit(setHabitsCreated,habitsCreated){
           <div>D</div>
         </Weekdays  >
         <ButtonsForm>
-          <div onClick={()=> console.log(habitsCreated)}>Cancelar</div>
+          <div>Cancelar</div>
           <button>Salvar</button>
         </ButtonsForm>
       </form>
@@ -34,9 +34,9 @@ export default function HabitsPage(){
       <BackGroundPage>
         <MyHabits>
           <span>Meus hábitos</span>
-          <AddHabit onClick={()=> setHabitsCreated([...habitsCreated, <CreateHabit setHabitsCreated={setHabitsCreated} habitsCreated={habitsCreated}/>])}>+</AddHabit>
+          <AddHabit onClick={()=> setHabitsCreated([...habitsCreated, <CreateHabit habitsCreated={habitsCreated} setHabitsCreated={setHabitsCreated}/>]) }>+</AddHabit>
         </MyHabits>
-        {habitsCreated}
+        {habitsCreated.map(element => element)}
         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
       </BackGroundPage>
       <Footer />

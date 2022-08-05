@@ -1,16 +1,29 @@
 import styled from "styled-components";
 import trackit from "./images/trackit.png";
 import bob from "./images/bob.png";
+import UserContext from "./UserContext";
+import { useContext } from "react";
 
 export default function Header(){
+  const {user , setUser} = useContext(UserContext);
   return (
     <Container>
       <img src={trackit} alt="trackit" />
-      <img src={bob} alt="bob esponja" />
+      <ImageProfile>
+        <img src={user.image} alt="bob esponja" />
+      </ImageProfile>
     </Container>
   );
 }
-
+const ImageProfile = styled.div`
+  width: 51px;
+  height: 51px;
+  img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+`
 const Container = styled.header`
   background-color: #126BA5;
   height: 70px;
