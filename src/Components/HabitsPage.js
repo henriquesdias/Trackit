@@ -8,11 +8,11 @@ import {createHabit} from "./ServiceAxios";
 import { ThreeDots } from "react-loader-spinner";
 
 
-function CreateHabit({habitsCreated,setHabitsCreated}){
+function CreateHabit({visibilityForm,setVisibilityForm}){
   const [daysOfHabit , setDaysOfHabit] = useState([]);
   const {user, setUser} = useContext(UserContext);
   const [habit, setHabit] = useState("");
-  const [blocked, setBlocked] = useState(true);
+  const [blocked, setBlocked] = useState(false);
   function sendHabit(event){
     event.preventDefault();
     setBlocked(true);
@@ -25,7 +25,7 @@ function CreateHabit({habitsCreated,setHabitsCreated}){
     const promise = createHabit(body,config);
   }
   return (
-    <CreateHabitStyle>
+    <CreateHabitStyle visibility={visibilityForm}>
       <form onSubmit={sendHabit}>
         <input
           type="text"
@@ -49,7 +49,7 @@ function CreateHabit({habitsCreated,setHabitsCreated}){
           ))}
         </Weekdays>
         <ButtonsForm>
-          <div>Cancelar</div>
+          <div onClick={() => {setVisibilityForm("none")}}>Cancelar</div>
           <button type="submit" disabled={blocked}>
             {!blocked ? (
               "Salvar"
@@ -64,16 +64,21 @@ function CreateHabit({habitsCreated,setHabitsCreated}){
 }
 const days = ["D","S","T","Q","Q","S","S"];
 export default function HabitsPage(){
-  const [habitsCreated , setHabitsCreated] = useState([]);
+  const [showForm , setShowForm] = useState(false);
+  const [visibilityForm, setVisibilityForm] = useState("block");
   return (
     <>
       <Header />
       <BackGroundPage>
         <MyHabits>
           <span>Meus hábitos</span>
-          <AddHabit onClick={()=> setHabitsCreated([...habitsCreated, <CreateHabit habitsCreated={habitsCreated} setHabitsCreated={setHabitsCreated}/>]) }>+</AddHabit>
+          <AddHabit onClick={()=> {
+            setShowForm(true);
+            setVisibilityForm("block");
+          }
+            }>+</AddHabit>
         </MyHabits>
-        {habitsCreated.map(element => element)}
+        {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} /> : ""}
         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
       </BackGroundPage>
       <Footer />
@@ -162,6 +167,7 @@ const CreateHabitStyle = styled.div`
   background-color: white;
   border-radius: 5px;
   padding: 18px;
+  display: ${props => props.visibility};
   input{
     max-width: 303px;
     width: 90%;
