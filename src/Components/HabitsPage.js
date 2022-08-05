@@ -5,27 +5,30 @@ import { useState} from "react";
 import BackGroundPage from "./Styles/BackGroundPage";
 
 function CreateHabit({habitsCreated,setHabitsCreated}){
+  const [daysOfHabit , setDaysOfHabit] = useState([]);
   return (
     <CreateHabitStyle>
       <form>
         <input type="text" placeholder="nome do hábito" />
         <Weekdays>
-          <Weekday>D</Weekday>
-          <Weekday>S</Weekday>
-          <Weekday>T</Weekday>
-          <Weekday>Q</Weekday>
-          <Weekday>Q</Weekday>
-          <Weekday>S</Weekday>
-          <Weekday>S</Weekday>
+          {days.map( (day,index) => (
+          <Weekday 
+            key={index} 
+            index={index}  
+            daysOfHabit={daysOfHabit} 
+            setDaysOfHabit={setDaysOfHabit}>
+            {day}
+          </Weekday>) )}
         </Weekdays  >
         <ButtonsForm>
-          <div>Cancelar</div>
+          <div onClick={()=>console.log(daysOfHabit)}>Cancelar</div>
           <button>Salvar</button>
         </ButtonsForm>
       </form>
     </CreateHabitStyle>
   );
 }
+const days = ["D","S","T","Q","Q","S","S"];
 export default function HabitsPage(){
   const [habitsCreated , setHabitsCreated] = useState([]);
   return (
@@ -43,18 +46,33 @@ export default function HabitsPage(){
     </>
   );
 }
-function Weekday({children}){
-  const [background , setBackground] = useState("white");
+function Weekday({
+  children,
+  daysOfHabit,
+  setDaysOfHabit,
+  index
+}) {
+  const [background, setBackground] = useState("white");
   const [color, setColor] = useState("#d4d4d4");
-  return <WeekdayStyle background={background} color={color} onClick={()=> {
-    if (background === "white") {
-      setBackground("#d4d4d4");
-      setColor("white");
-    } else {
-      setBackground("white");
-      setColor("#d4d4d4");
-    }
-  }}>{children}</WeekdayStyle>
+  return (
+    <WeekdayStyle
+      background={background}
+      color={color}
+      onClick={() => {
+        if (background === "white") {
+          setBackground("#d4d4d4");
+          setColor("white");
+          setDaysOfHabit([...daysOfHabit,index]);
+        } else {
+          setBackground("white");
+          setColor("#d4d4d4");
+          setDaysOfHabit([...daysOfHabit.filter(element => element !== index)])
+        }
+      }}
+    >
+      {children}
+    </WeekdayStyle>
+  );
 }
 const WeekdayStyle = styled.div`
   display: flex;
