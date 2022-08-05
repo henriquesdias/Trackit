@@ -77,7 +77,7 @@ export default function SignUp(){
           readOnly={blocked}
           required
         />
-        <ButtonForm type="submit" block={blocked} disabled={blocked}>
+        <ButtonForm type="submit"  disabled={blocked}>
           {!blocked  ? (
             "Cadastrar"
           ) : (

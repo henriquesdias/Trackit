@@ -1,28 +1,62 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import styled from "styled-components";
-import { useState} from "react";
+import { useContext, useState } from "react";
 import BackGroundPage from "./Styles/BackGroundPage";
+import UserContext from "./UserContext";
+import {createHabit} from "./ServiceAxios";
+import { ThreeDots } from "react-loader-spinner";
+
 
 function CreateHabit({habitsCreated,setHabitsCreated}){
   const [daysOfHabit , setDaysOfHabit] = useState([]);
+  const {user, setUser} = useContext(UserContext);
+  const [habit, setHabit] = useState("");
+  const [blocked, setBlocked] = useState(true);
+  function sendHabit(event){
+    event.preventDefault();
+    setBlocked(true);
+    const body = {name: habit, days: daysOfHabit};
+    const config = {
+      headers: {
+        "Authorization": `Bearer ${user.token}`,
+      }
+    }
+    const promise = createHabit(body,config);
+  }
   return (
     <CreateHabitStyle>
-      <form>
-        <input type="text" placeholder="nome do hábito" />
+      <form onSubmit={sendHabit}>
+        <input
+          type="text"
+          placeholder="nome do hábito"
+          required
+          value={habit}
+          readOnly={blocked}
+          onChange={(e) => setHabit(e.target.value)}
+        />
         <Weekdays>
-          {days.map( (day,index) => (
-          <Weekday 
-            key={index} 
-            index={index}  
-            daysOfHabit={daysOfHabit} 
-            setDaysOfHabit={setDaysOfHabit}>
-            {day}
-          </Weekday>) )}
-        </Weekdays  >
+          {days.map((day, index) => (
+            <Weekday
+              key={index}
+              index={index}
+              daysOfHabit={daysOfHabit}
+              setDaysOfHabit={setDaysOfHabit}
+              blocked={blocked}
+            >
+              {day}
+            </Weekday>
+          ))}
+        </Weekdays>
         <ButtonsForm>
-          <div onClick={()=>console.log(daysOfHabit)}>Cancelar</div>
-          <button>Salvar</button>
+          <div>Cancelar</div>
+          <button type="submit" disabled={blocked}>
+            {!blocked ? (
+              "Salvar"
+            ) : (
+              <ThreeDots color="#FFFFFF" height={80} width={80} />
+            )}
+          </button>
         </ButtonsForm>
       </form>
     </CreateHabitStyle>
@@ -50,7 +84,8 @@ function Weekday({
   children,
   daysOfHabit,
   setDaysOfHabit,
-  index
+  index,
+  blocked
 }) {
   const [background, setBackground] = useState("white");
   const [color, setColor] = useState("#d4d4d4");
@@ -59,11 +94,11 @@ function Weekday({
       background={background}
       color={color}
       onClick={() => {
-        if (background === "white") {
+        if (background === "white" && !blocked) {
           setBackground("#d4d4d4");
           setColor("white");
           setDaysOfHabit([...daysOfHabit,index]);
-        } else {
+        } else if (!blocked){
           setBackground("white");
           setColor("#d4d4d4");
           setDaysOfHabit([...daysOfHabit.filter(element => element !== index)])

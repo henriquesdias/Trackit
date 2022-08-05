@@ -58,7 +58,7 @@ export default function LoginPage(){
           onChange={handleForm}
           required
         />
-        <ButtonForm block={blocked} type="submit">
+        <ButtonForm disabled={blocked} type="submit">
           {!blocked ? (
             "Entrar"
           ) : (
