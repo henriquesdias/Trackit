@@ -19,7 +19,7 @@ function listHabits(config){
   return promise;
 }
 function deleteHabit(idHabit,config){
-  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`, {}, config);
+  const promise = axios.delete(`${BASE_URL}/habits/${idHabit}`, config);
   return promise;
 }
 function searchHabits(config){

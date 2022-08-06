@@ -5,19 +5,23 @@ import { useContext, useEffect, useState } from "react";
 import BackGroundPage from "./Styles/BackGroundPage";
 import CreateHabit from "./CreateHabit";
 import UserContext from "./UserContext";
-import { listHabits } from "./ServiceAxios";
+import { listHabits, deleteHabit } from "./ServiceAxios";
+
 
 export default function HabitsPage(){
   const [showForm , setShowForm] = useState(false);
   const [visibilityForm, setVisibilityForm] = useState("block");
   const {user,setUser} = useContext(UserContext);
   const [myHabits , setMyHabits] = useState([]);
-  useEffect(() => {
+  function getHabits(){
     const promise = listHabits({
       headers: { Authorization: `Bearer ${user.token}` },
     });
     promise.then((answer) => setMyHabits(answer.data));
     promise.catch((answer) => console.log(answer));
+  }
+  useEffect(() => {
+    getHabits();
   }, []);
   console.log(myHabits);
   return (
@@ -33,18 +37,29 @@ export default function HabitsPage(){
             }>+</AddHabit>
         </MyHabits>
         {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} setMyHabits={setMyHabits} /> : ""}
-        {myHabits.length !== 0 ? myHabits.map( element => <Habit idHabit={element.id} name={element.name} daysOfHabit={element.days}/>) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+        {myHabits.length !== 0 ? myHabits.map( element => <Habit idHabit={element.id} name={element.name} daysOfHabit={element.days} getHabits={getHabits}/> ) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
       </BackGroundPage>
       <Footer />
     </>
   );
 }
-function Habit({name, daysOfHabit,idHabit}){
+function Habit({name, daysOfHabit,idHabit,getHabits}){
+  const {user} = useContext(UserContext);
+  function excludeHabit(idHabit) {
+    const answer = window.confirm("Deseja excluir o hábito selecionado ?");
+      if (answer === true) {
+        const promise = deleteHabit(idHabit, {headers: { Authorization: `Bearer ${user.token}` }})
+        promise.then( answer => {
+          getHabits();
+        } ); 
+        promise.catch( answer => console.log(answer) ); 
+      }
+  }
   return (
     <HabitStyle>
       <div>
         <h1>{name}</h1>
-        <ion-icon name="trash-outline"></ion-icon>
+        <ion-icon name="trash-outline" onClick={()=> excludeHabit(idHabit) }></ion-icon>
       </div>
       <Weekdays>
         {days.map( (day, index) => (

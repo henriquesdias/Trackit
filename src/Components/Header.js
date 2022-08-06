@@ -34,6 +34,7 @@ const Container = styled.header`
   padding-right: 18px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   position: fixed;
+  z-index: 2;
   top: 0;
   left: 0;
   right: 0;

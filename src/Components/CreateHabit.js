@@ -30,10 +30,9 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
     promise.then( answer => {
       getHabits();
       setShowForm(false);
-      console.log(answer);
     })
     promise.catch( (answer) => {
-      console.log(answer);
+      setBlocked(false);
       alert("Tente novamente");
     } )
   }
