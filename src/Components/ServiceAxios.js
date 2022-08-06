@@ -15,7 +15,7 @@ function createHabit(body,config){
   return promise;
 }
 function listHabits(config){
-  const promise = axios.get(`${BASE_URL}/habits`, {}, config);
+  const promise = axios.get(`${BASE_URL}/habits`, config);
   return promise;
 }
 function deleteHabit(idHabit,config){
