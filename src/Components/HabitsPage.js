@@ -12,13 +12,13 @@ export default function HabitsPage(){
   const [visibilityForm, setVisibilityForm] = useState("block");
   const {user,setUser} = useContext(UserContext);
   const [myHabits , setMyHabits] = useState([]);
-  useEffect( () => {
-      const promise = listHabits({
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      promise.then( answer => setMyHabits(answer.data));
-      promise.catch( answer => console.log(answer));
-  },[])
+  useEffect(() => {
+    const promise = listHabits({
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    promise.then((answer) => setMyHabits(answer.data));
+    promise.catch((answer) => console.log(answer));
+  }, []);
   console.log(myHabits);
   return (
     <>
@@ -32,50 +32,40 @@ export default function HabitsPage(){
           }
             }>+</AddHabit>
         </MyHabits>
-        {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} /> : ""}
-        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-        <Habit/>
+        {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} setMyHabits={setMyHabits} /> : ""}
+        {myHabits.length !== 0 ? myHabits.map( element => <Habit idHabit={element.id} name={element.name} daysOfHabit={element.days}/>) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
       </BackGroundPage>
       <Footer />
     </>
   );
 }
-function Habit(){
+function Habit({name, daysOfHabit,idHabit}){
   return (
     <HabitStyle>
       <div>
-        <h1>Ler 1 capítulo de livro</h1>
+        <h1>{name}</h1>
         <ion-icon name="trash-outline"></ion-icon>
       </div>
       <Weekdays>
-        {days.map((day, index) => (
-          <Weekday
-            key={index}
-          >
-            {day}
-          </Weekday>
-        ))}
+        {days.map( (day, index) => (
+
+          daysOfHabit.includes(index) ? 
+            <Weekday key={index} background={"#d4d4d4"} color={"white"}>
+              {day}
+            </Weekday> :  
+            <Weekday key={index} background={"white"} color={"#d4d4d4"}>
+              {day}
+            </Weekday>
+        )
+
+      )}
       </Weekdays>
     </HabitStyle>
   );
 }
-function Weekday({ children }) {
-  const [background, setBackground] = useState("white");
-  const [color, setColor] = useState("#d4d4d4");
+function Weekday({ children, background, color }) {
   return (
-    <WeekdayStyle
-      background={background}
-      color={color}
-      onClick={() => {
-        if (background === "white") {
-          setBackground("#d4d4d4");
-          setColor("white");
-        } else {
-          setBackground("white");
-          setColor("#d4d4d4");
-        }
-      }}
-    >
+    <WeekdayStyle background={background} color={color}>
       {children}
     </WeekdayStyle>
   );
@@ -86,7 +76,7 @@ const HabitStyle = styled.div`
   height: 91px;
   background-color: white;
   border-radius: 5px;
-  margin: 0 auto 0 auto;
+  margin: 10px auto 10px auto;
   padding: 18px 5px 18px 15px;
   h1{
     font-size: 20px;

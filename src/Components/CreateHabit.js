@@ -1,15 +1,22 @@
 import UserContext from "./UserContext";
-import { createHabit } from "./ServiceAxios";
+import { createHabit , listHabits} from "./ServiceAxios";
 import { ThreeDots } from "react-loader-spinner";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 
 
-export default function CreateHabit({ visibilityForm, setVisibilityForm, setShowForm }) {
+export default function CreateHabit({ visibilityForm, setVisibilityForm, setShowForm, setMyHabits}) {
   const [daysOfHabit, setDaysOfHabit] = useState([]);
   const { user, setUser } = useContext(UserContext);
   const [habit, setHabit] = useState("");
   const [blocked, setBlocked] = useState(false);
+  function getHabits(){
+    const promise = listHabits({
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    promise.then((answer) => setMyHabits(answer.data));
+    promise.catch((answer) => console.log(answer));
+  }
   function sendHabit(event) {
     event.preventDefault();
     setBlocked(true);
@@ -21,6 +28,7 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
     };
     const promise = createHabit(body, config);
     promise.then( answer => {
+      getHabits();
       setShowForm(false);
       console.log(answer);
     })
