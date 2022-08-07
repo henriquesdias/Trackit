@@ -5,18 +5,24 @@ import BackGroundPage from "./Styles/BackGroundPage";
 import UserContext from "./UserContext";
 import { useContext, useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { searchHabits } from "./ServiceAxios";
+import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
 
 export default function Today(){
   const {user, setUser} = useContext(UserContext);
   const [habitsToday, setHabitsToday] = useState([]);
   const date = dayjs().locale("pt");
-  useEffect( () => {
+  function getHabits(){
     const promise = searchHabits({
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    promise.then( answer => setHabitsToday(answer.data));
-  })
+    promise.then( answer => {
+      setHabitsToday(answer.data);
+      console.log(answer.data);
+    });
+  }
+  useEffect( () => {
+    getHabits();
+  },[]);
   return (
     <>
       <Header />
@@ -25,23 +31,39 @@ export default function Today(){
             <span> {date.day()}, {date.date()}/{date.month() + 1}</span>
             <h2>Nenhum hábito concluído ainda</h2>
           </DayStyle>
-          {habitsToday.map( (element,index) => (<HabitToday name={element.name} currentSequence={element.currentSequence} highestSequence={element.highestSequence} key={index} done={element.done} id={element.id}/>) )}
+          {habitsToday.map( (element,index) => (<HabitToday name={element.name} currentSequence={element.currentSequence} highestSequence={element.highestSequence} key={index} itsDone={element.done} id={element.id} getHabits={getHabits}/>) )}
         </BackGroundPage>
       <Footer/>
     </>
   );
 }
-function HabitToday({name,currentSequence,highestSequence,done,id}){
-  const [isDone, setIsDone] = useState(done);
+function HabitToday({name,currentSequence,highestSequence,itsDone,id,getHabits}){
+  const {user,setUser} = useContext(UserContext);
+  function checkHabit(){
+    const promise = markHabitAsConcluded( id,{headers: { Authorization: `Bearer ${user.token}` }} );
+    promise.catch( answer => console.log(answer));
+    promise.then( () => getHabits());
+  }
+  function uncheckHabit(){
+    const promise = markOffHabitAsConcluded( id,{headers: { Authorization: `Bearer ${user.token}` }} );
+    promise.catch( answer => console.log(answer));
+    promise.then( () => getHabits());
+  }
   return (
-    <HabitStyle background={isDone ? "#8FC549" : "#EBEBEB"}>
+    <HabitStyle background={itsDone ? "#8FC549" : "#EBEBEB"}>
       <div>
         <h4>{name}</h4>
         <h3>Sequência atual: {currentSequence} dias</h3>
         <h3>Seu recorde: {highestSequence} dias</h3>
       </div>
       <div>
-        <ion-icon name="checkmark-sharp"></ion-icon>
+        <ion-icon name="checkmark-sharp" onClick={ () => {
+          if (itsDone) {
+            uncheckHabit();
+          } else {
+            checkHabit();
+          }
+        }}></ion-icon>
       </div>
       </HabitStyle>
   );

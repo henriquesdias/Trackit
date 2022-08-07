@@ -27,11 +27,11 @@ function searchHabits(config){
   return promise;
 }
 function markHabitAsConcluded(idHabit,config){
-  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, config);
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, {}, config);
   return promise;
 }
-function markOffHabitAsConcluded(idHabit){
-  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/uncheck`);
+function markOffHabitAsConcluded(idHabit,config){
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/uncheck`, {}, config);
   return promise;
 }
 function getHistoric(){
