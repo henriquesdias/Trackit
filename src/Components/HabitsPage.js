@@ -23,7 +23,6 @@ export default function HabitsPage(){
   useEffect(() => {
     getHabits();
   }, []);
-  console.log(myHabits);
   return (
     <>
       <Header />

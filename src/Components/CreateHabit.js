@@ -1,13 +1,13 @@
 import UserContext from "./UserContext";
 import { createHabit , listHabits} from "./ServiceAxios";
 import { ThreeDots } from "react-loader-spinner";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 
 
 export default function CreateHabit({ visibilityForm, setVisibilityForm, setShowForm, setMyHabits}) {
   const [daysOfHabit, setDaysOfHabit] = useState([]);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [habit, setHabit] = useState("");
   const [blocked, setBlocked] = useState(false);
   function getHabits(){
@@ -27,11 +27,11 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
       },
     };
     const promise = createHabit(body, config);
-    promise.then( answer => {
+    promise.then( () => {
       getHabits();
       setShowForm(false);
     })
-    promise.catch( (answer) => {
+    promise.catch( () => {
       setBlocked(false);
       alert("Tente novamente");
     } )
@@ -60,7 +60,7 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
             </Weekday>
           ))}
         </Weekdays>
-        <ButtonsForm>
+        <ButtonsForm blocked={blocked}>
           <div
             onClick={() => {
               setVisibilityForm("none");
@@ -141,7 +141,7 @@ const ButtonsForm = styled.div`
     margin-left: 23px;
     width: 84px;
     height: 35px;
-    background-color: #52b6ff;
+    background-color: ${(props) => (props.blocked ? "#86CBFC" : "#53B5FC")};
     border-radius: 4.6px;
     color: white;
     display: flex;

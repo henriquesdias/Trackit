@@ -6,7 +6,7 @@ import UserContext from "./UserContext";
 import { useContext } from "react";
 
 export default function Footer(){
-  const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
+  const { percentageOfHabits} = useContext(UserContext);
   return (
     <FooterStyle>
       <FooterLink to="/habitos">

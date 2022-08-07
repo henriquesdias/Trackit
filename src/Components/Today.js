@@ -6,11 +6,11 @@ import UserContext from "./UserContext";
 import { useContext, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { locale } from "dayjs";
+import "dayjs/locale/pt";
 import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
 
 export default function Today(){
-  const days = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
-  const weekday =  days[dayjs().day()];
+  const weekday = dayjs().locale("pt").format("dddd");
   const date = dayjs().format("DD/MM");
   const {user} = useContext(UserContext);
   const [habitsToday, setHabitsToday] = useState([]);
@@ -23,7 +23,6 @@ export default function Today(){
     });
     promise.then( answer => {
       setHabitsToday(answer.data);
-      console.log(answer.data);
     });
   }
   useEffect( () => {
@@ -34,7 +33,7 @@ export default function Today(){
       <Header />
         <BackGroundPage>
           <DayStyle>
-            <span> {weekday}, {date}</span>
+            <span> {weekday[0].toUpperCase()}{weekday.slice(1)}, {date}</span>
             {percentageOfHabits === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h5>{percentageOfHabits}% dos hábitos concluídos</h5>}
           </DayStyle>
           {habitsToday.map( (element,index) => (
