@@ -5,7 +5,6 @@ import BackGroundPage from "./Styles/BackGroundPage";
 import UserContext from "./UserContext";
 import { useContext, useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { locale } from "dayjs";
 import "dayjs/locale/pt";
 import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
 
@@ -34,7 +33,7 @@ export default function Today(){
         <BackGroundPage>
           <DayStyle>
             <span> {weekday[0].toUpperCase()}{weekday.slice(1)}, {date}</span>
-            {percentageOfHabits === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h5>{percentageOfHabits}% dos hábitos concluídos</h5>}
+            {percentageOfHabits !== 0 && !isNaN(percentageOfHabits)? <h5>{percentageOfHabits}% dos hábitos concluídos</h5> : <h2>Nenhum hábito concluído ainda</h2>}
           </DayStyle>
           {habitsToday.map( (element,index) => (
             <HabitToday 
@@ -92,7 +91,7 @@ const HabitStyle = styled.div`
   border-radius: 5px;
   width: 90%;
   max-width: 340px;
-  height: 94px;
+  min-height: 94px;
   margin: 0 auto 10px auto;
   display: flex;
   justify-content: space-between;

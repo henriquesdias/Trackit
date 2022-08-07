@@ -35,8 +35,19 @@ export default function HabitsPage(){
           }
             }>+</AddHabit>
         </MyHabits>
-        {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} setMyHabits={setMyHabits} /> : ""}
-        {myHabits.length !== 0 ? myHabits.map( element => <Habit key={element.id} idHabit={element.id} name={element.name} daysOfHabit={element.days} getHabits={getHabits}/> ) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+        {showForm ? <CreateHabit 
+        setShowForm={setShowForm} 
+        visibilityForm={visibilityForm} 
+        setVisibilityForm={setVisibilityForm} 
+        setMyHabits={setMyHabits} /> : ""}
+        {myHabits.length !== 0 ? myHabits.map( element => (
+        <Habit 
+        key={element.id} 
+        idHabit={element.id} 
+        name={element.name} 
+        daysOfHabit={element.days} 
+        getHabits={getHabits}/>) ) :  
+        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
       </BackGroundPage>
       <Footer />
     </>
@@ -48,7 +59,7 @@ function Habit({name, daysOfHabit,idHabit,getHabits}){
     const answer = window.confirm("Deseja excluir o hábito selecionado ?");
       if (answer === true) {
         const promise = deleteHabit(idHabit, {headers: { Authorization: `Bearer ${user.token}` }})
-        promise.then( answer => {
+        promise.then( () => {
           getHabits();
         } ); 
         promise.catch( answer => console.log(answer) ); 
@@ -62,7 +73,6 @@ function Habit({name, daysOfHabit,idHabit,getHabits}){
       </div>
       <Weekdays>
         {days.map( (day, index) => (
-
           daysOfHabit.includes(index) ? 
             <Weekday key={index} background={"#d4d4d4"} color={"white"}>
               {day}
@@ -71,7 +81,6 @@ function Habit({name, daysOfHabit,idHabit,getHabits}){
               {day}
             </Weekday>
         )
-
       )}
       </Weekdays>
     </HabitStyle>
