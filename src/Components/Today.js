@@ -5,15 +5,16 @@ import BackGroundPage from "./Styles/BackGroundPage";
 import UserContext from "./UserContext";
 import { useContext, useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { locale } from "dayjs";
 import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
 
 export default function Today(){
-  const customParseFormat = require('dayjs/plugin/customParseFormat')
-  dayjs.extend(customParseFormat)
+  const days = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+  const weekday =  days[dayjs().day()];
+  const date = dayjs().format("DD/MM");
   const {user} = useContext(UserContext);
   const [habitsToday, setHabitsToday] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
-  const date = dayjs().locale("pt");
   const numberOfHabitsConcluded = habitsToday.filter( element => element.done === true).length;
   setPercentageOfHabits(Math.floor(( numberOfHabitsConcluded  * 100) / habitsToday.length));
   function getHabits(){
@@ -33,7 +34,7 @@ export default function Today(){
       <Header />
         <BackGroundPage>
           <DayStyle>
-            <span> {date.day()}, {date.date()}/{date.month() + 1}</span>
+            <span> {weekday}, {date}</span>
             {percentageOfHabits === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h5>{percentageOfHabits}% dos hábitos concluídos</h5>}
           </DayStyle>
           {habitsToday.map( (element,index) => (
