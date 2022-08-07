@@ -1,7 +1,7 @@
 import logo from "./images/logo-principal.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Container from "./Styles/Container";
+import FormStyle from "./Styles/FormStyle";
 import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,7 @@ export default function LoginPage(){
     });
   }
   return (
-    <Container>
+    <FormStyle>
       <img src={logo} alt="trackit" />
       <form onSubmit={submitData}>
         <input
@@ -69,7 +69,7 @@ export default function LoginPage(){
       <Link to="/cadastro">
         <p>Não tem uma conta? Cadastre-se!</p>
       </Link>
-    </Container>
+    </FormStyle>
   );
 }
 const ButtonForm = styled.button`

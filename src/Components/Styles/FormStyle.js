@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Container = styled.div`
+const FormStyle = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,4 +28,4 @@ const Container = styled.div`
     margin-top: 25px;
   }
 `;
-export default Container;
+export default FormStyle;

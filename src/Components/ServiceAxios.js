@@ -23,11 +23,11 @@ function deleteHabit(idHabit,config){
   return promise;
 }
 function searchHabits(config){
-  const promise = axios.get(`${BASE_URL}/habits/today`,{}, config);
+  const promise = axios.get(`${BASE_URL}/habits/today`, config);
   return promise;
 }
 function markHabitAsConcluded(idHabit,config){
-  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, {}, config);
+  const promise = axios.post(`${BASE_URL}/habits/${idHabit}/check`, config);
   return promise;
 }
 function markOffHabitAsConcluded(idHabit){

@@ -6,12 +6,12 @@ import { useContext } from "react";
 export default function Header(){
   const {user , setUser} = useContext(UserContext);
   return (
-    <Container>
+    <HeaderStyle>
       <img src={trackit} alt="trackit" />
       <ImageProfile>
         <img src={user.image} alt="image profile" />
       </ImageProfile>
-    </Container>
+    </HeaderStyle>
   );
 }
 const ImageProfile = styled.div`
@@ -23,7 +23,7 @@ const ImageProfile = styled.div`
     border-radius: 50%;
   }
 `
-const Container = styled.header`
+const HeaderStyle = styled.header`
   background-color: #126BA5;
   height: 70px;
   width: 100%;

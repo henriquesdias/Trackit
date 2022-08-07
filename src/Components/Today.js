@@ -3,16 +3,93 @@ import Footer from "./Footer";
 import styled from "styled-components";
 import BackGroundPage from "./Styles/BackGroundPage";
 import UserContext from "./UserContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import dayjs from "dayjs";
+import { searchHabits } from "./ServiceAxios";
 
 export default function Today(){
   const {user, setUser} = useContext(UserContext);
-  console.log(user);
+  const [habitsToday, setHabitsToday] = useState([]);
+  const date = dayjs().locale("pt");
+  useEffect( () => {
+    const promise = searchHabits({
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    promise.then( answer => setHabitsToday(answer.data));
+  })
   return (
     <>
       <Header />
-      <BackGroundPage></BackGroundPage>
+        <BackGroundPage>
+          <DayStyle>
+            <span> {date.day()}, {date.date()}/{date.month() + 1}</span>
+            <h2>Nenhum hábito concluído ainda</h2>
+          </DayStyle>
+          {habitsToday.map( (element,index) => (<HabitToday name={element.name} currentSequence={element.currentSequence} highestSequence={element.highestSequence} key={index} done={element.done} id={element.id}/>) )}
+        </BackGroundPage>
       <Footer/>
     </>
   );
 }
+function HabitToday({name,currentSequence,highestSequence,done,id}){
+  const [isDone, setIsDone] = useState(done);
+  return (
+    <HabitStyle background={isDone ? "#8FC549" : "#EBEBEB"}>
+      <div>
+        <h4>{name}</h4>
+        <h3>Sequência atual: {currentSequence} dias</h3>
+        <h3>Seu recorde: {highestSequence} dias</h3>
+      </div>
+      <div>
+        <ion-icon name="checkmark-sharp"></ion-icon>
+      </div>
+      </HabitStyle>
+  );
+}
+const HabitStyle = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  width: 90%;
+  max-width: 340px;
+  height: 94px;
+  margin: 0 auto 10px auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 13px;
+  div:first-child{
+    color: #666666;
+    h4{
+      font-size: 20px;
+    }
+    h3{
+      font-size: 13px;
+    }
+    h3:nth-child(2){
+      margin-top: 7px;
+    }
+  }
+  div:last-child{
+    background-color: ${props => props.background};
+    height: 69px;
+    width: 69px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ion-icon{
+      font-size: 35px;
+      color: white;
+    }
+  }
+
+`
+const DayStyle = styled.div`
+  margin: 0 auto 0 auto;
+  width: 90%;
+  h2{
+    font-size: 18px;
+    color: #666666;
+    margin-top: 8px;
+    margin-bottom: 28px;
+  }
+`

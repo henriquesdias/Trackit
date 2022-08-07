@@ -5,7 +5,7 @@ import { signUp } from "./ServiceAxios";
 import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
-import Container from "./Styles/Container";
+import FormStyle from "./Styles/FormStyle";
 
 
 export default function SignUp(){
@@ -22,11 +22,9 @@ export default function SignUp(){
     setBlocked(true);
     const promise = signUp(form);
     promise.then( answer => {
-      console.log(answer);
       navigate("/");
     });
     promise.catch( answer => {
-      console.log(answer)
       alert("Dados inválidos/já existentes");
       setBlocked(false);
     });
@@ -38,7 +36,7 @@ export default function SignUp(){
     });
   }
   return (
-    <Container>
+    <FormStyle>
       <img src={logo} alt="trackit" />
       <form onSubmit={submitData}>
         <input
@@ -88,7 +86,7 @@ export default function SignUp(){
       <Link to="/">
         <p>Já tem uma conta? Faça login!</p>
       </Link>
-    </Container>
+    </FormStyle>
   );
 }
 
