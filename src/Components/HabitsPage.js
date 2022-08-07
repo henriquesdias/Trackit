@@ -37,7 +37,7 @@ export default function HabitsPage(){
             }>+</AddHabit>
         </MyHabits>
         {showForm ? <CreateHabit setShowForm={setShowForm} visibilityForm={visibilityForm} setVisibilityForm={setVisibilityForm} setMyHabits={setMyHabits} /> : ""}
-        {myHabits.length !== 0 ? myHabits.map( element => <Habit idHabit={element.id} name={element.name} daysOfHabit={element.days} getHabits={getHabits}/> ) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+        {myHabits.length !== 0 ? myHabits.map( element => <Habit key={element.id} idHabit={element.id} name={element.name} daysOfHabit={element.days} getHabits={getHabits}/> ) :  <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
       </BackGroundPage>
       <Footer />
     </>

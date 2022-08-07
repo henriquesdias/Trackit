@@ -8,12 +8,13 @@ import dayjs from "dayjs";
 import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
 
 export default function Today(){
-  const {user, setUser} = useContext(UserContext);
+  const customParseFormat = require('dayjs/plugin/customParseFormat')
+  dayjs.extend(customParseFormat)
+  const {user} = useContext(UserContext);
   const [habitsToday, setHabitsToday] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
   const date = dayjs().locale("pt");
   const numberOfHabitsConcluded = habitsToday.filter( element => element.done === true).length;
-  console.log(numberOfHabitsConcluded);
   setPercentageOfHabits(Math.floor(( numberOfHabitsConcluded  * 100) / habitsToday.length));
   function getHabits(){
     const promise = searchHabits({
@@ -22,7 +23,6 @@ export default function Today(){
     promise.then( answer => {
       setHabitsToday(answer.data);
       console.log(answer.data);
- 
     });
   }
   useEffect( () => {
@@ -34,16 +34,25 @@ export default function Today(){
         <BackGroundPage>
           <DayStyle>
             <span> {date.day()}, {date.date()}/{date.month() + 1}</span>
-            {percentageOfHabits !== 0 ? <h5>{percentageOfHabits}% dos hábitos concluídos</h5>: <h2>Nenhum hábito concluído ainda</h2> }
+            {percentageOfHabits === 0 ? <h2>Nenhum hábito concluído ainda</h2> : <h5>{percentageOfHabits}% dos hábitos concluídos</h5>}
           </DayStyle>
-          {habitsToday.map( (element,index) => (<HabitToday name={element.name} currentSequence={element.currentSequence} highestSequence={element.highestSequence} key={index} itsDone={element.done} id={element.id} getHabits={getHabits}/>) )}
+          {habitsToday.map( (element,index) => (
+            <HabitToday 
+            name={element.name} 
+            currentSequence={element.currentSequence} 
+            highestSequence={element.highestSequence} 
+            key={index} itsDone={element.done} 
+            id={element.id} 
+            getHabits={getHabits}/>
+          ))}
         </BackGroundPage>
       <Footer/>
     </>
   );
 }
 function HabitToday({name,currentSequence,highestSequence,itsDone,id,getHabits}){
-  const {user,setUser} = useContext(UserContext);
+  const {user} = useContext(UserContext);
+  const [colorSequence, setColorSequence] = useState("");
   function checkHabit(){
     const promise = markHabitAsConcluded( id,{headers: { Authorization: `Bearer ${user.token}` }} );
     promise.catch( answer => console.log(answer));
@@ -54,12 +63,16 @@ function HabitToday({name,currentSequence,highestSequence,itsDone,id,getHabits})
     promise.catch( answer => console.log(answer));
     promise.then( () => getHabits());
   }
+  const areEqual = currentSequence === highestSequence;
   return (
-    <HabitStyle background={itsDone ? "#8FC549" : "#EBEBEB"}>
+    <HabitStyle 
+    background={itsDone ? "#8FC549" : "#EBEBEB"} 
+    color={areEqual ? "#8FC549" : "#666666"} 
+    colorCurrentSequence={colorSequence}>
       <div>
         <h4>{name}</h4>
-        <h3>Sequência atual: {currentSequence} dias</h3>
-        <h3>Seu recorde: {highestSequence} dias</h3>
+        <h3>Sequência atual: <span>{currentSequence} dias</span></h3>
+        <h3>Seu recorde: <span>{highestSequence} dias</span></h3>
       </div>
       <div>
         <ion-icon name="checkmark-sharp" onClick={ () => {
@@ -67,6 +80,7 @@ function HabitToday({name,currentSequence,highestSequence,itsDone,id,getHabits})
             uncheckHabit();
           } else {
             checkHabit();
+            setColorSequence("#8FC549");
           }
         }}></ion-icon>
       </div>
@@ -90,9 +104,17 @@ const HabitStyle = styled.div`
     }
     h3{
       font-size: 13px;
+      color:  #666666;
     }
     h3:nth-child(2){
       margin-top: 7px;
+      span{
+        color: ${props => props.colorCurrentSequence};
+      }
+    }
+    span{
+      color: ${props => props.color};
+      font-size: 13px;
     }
   }
   div:last-child{
