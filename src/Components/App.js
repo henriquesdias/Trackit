@@ -10,9 +10,10 @@ import { useState } from "react";
 
 export default function App() {
   const [user, setUser] = useState("");
+  const [percentageOfHabits, setPercentageOfHabits] = useState(0);
   return (
     <BrowserRouter>
-      <UserContext.Provider value={{user, setUser}}>
+      <UserContext.Provider value={{user, setUser, percentageOfHabits, setPercentageOfHabits}}>
           <GlobalStyle />
           <Routes>
             <Route path="/" element={<LoginPage />}></Route>

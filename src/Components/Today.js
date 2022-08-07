@@ -10,7 +10,11 @@ import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./S
 export default function Today(){
   const {user, setUser} = useContext(UserContext);
   const [habitsToday, setHabitsToday] = useState([]);
+  const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
   const date = dayjs().locale("pt");
+  const numberOfHabitsConcluded = habitsToday.filter( element => element.done === true).length;
+  console.log(numberOfHabitsConcluded);
+  setPercentageOfHabits(Math.floor(( numberOfHabitsConcluded  * 100) / habitsToday.length));
   function getHabits(){
     const promise = searchHabits({
       headers: { Authorization: `Bearer ${user.token}` },
@@ -18,6 +22,7 @@ export default function Today(){
     promise.then( answer => {
       setHabitsToday(answer.data);
       console.log(answer.data);
+ 
     });
   }
   useEffect( () => {
@@ -29,7 +34,7 @@ export default function Today(){
         <BackGroundPage>
           <DayStyle>
             <span> {date.day()}, {date.date()}/{date.month() + 1}</span>
-            <h2>Nenhum hábito concluído ainda</h2>
+            {percentageOfHabits !== 0 ? <h5>{percentageOfHabits}% dos hábitos concluídos</h5>: <h2>Nenhum hábito concluído ainda</h2> }
           </DayStyle>
           {habitsToday.map( (element,index) => (<HabitToday name={element.name} currentSequence={element.currentSequence} highestSequence={element.highestSequence} key={index} itsDone={element.done} id={element.id} getHabits={getHabits}/>) )}
         </BackGroundPage>
@@ -98,6 +103,7 @@ const HabitStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     ion-icon{
       font-size: 35px;
       color: white;
@@ -113,5 +119,11 @@ const DayStyle = styled.div`
     color: #666666;
     margin-top: 8px;
     margin-bottom: 28px;
+  }
+  h5{
+    font-size: 18px;
+    margin-top: 8px;
+    margin-bottom: 28px;
+    color: #8FC549;
   }
 `
