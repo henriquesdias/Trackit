@@ -19,15 +19,20 @@ export default function SignUp(){
   const navigate = useNavigate();
   function submitData(event){
     event.preventDefault();
-    setBlocked(true);
-    const promise = signUp(form);
-    promise.then( answer => {
-      navigate("/");
-    });
-    promise.catch( answer => {
-      alert("Dados inválidos/já existentes");
-      setBlocked(false);
-    });
+    if (form.image.slice(0,4) !== 'http') {
+      alert("Coloque um formato válido de imagem");
+    } else {
+      setBlocked(true);
+      const promise = signUp(form);
+      promise.then((answer) => {
+        navigate("/");
+      });
+      promise.catch((answer) => {
+        alert("Dados inválidos/já existentes");
+        setBlocked(false);
+      });
+    }
+
   }
   function handleForm(e) {
     setForm({
