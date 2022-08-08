@@ -2,6 +2,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import BackGroundPage from "./Styles/BackGroundPage";
 import styled from "styled-components";
+
+import Calendar from 'react-calendar'
 export default function Historic(){
   return (
       <>
@@ -11,6 +13,7 @@ export default function Historic(){
           <span>Histórico</span>
         </HistoricStyle>
           <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
+          <Calendar />
         </BackGroundPage>
         <Footer/>
       </>

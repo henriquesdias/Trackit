@@ -16,8 +16,17 @@ export default function Today(){
   localStorage.setItem("userLogin", infoUserSerialized);
   const [habitsToday, setHabitsToday] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
-  const numberOfHabitsConcluded = habitsToday.filter( element => element.done === true).length;
-  setPercentageOfHabits(Math.floor(( numberOfHabitsConcluded  * 100) / habitsToday.length));
+  if (habitsToday.length === 0) {
+    setPercentageOfHabits(0);
+  } else {
+    const numberOfHabitsConcluded = habitsToday.filter(
+      (element) => element.done === true
+    ).length;
+    setPercentageOfHabits(
+      Math.floor((numberOfHabitsConcluded * 100) / habitsToday.length)
+    );
+  }
+
   function getHabits(){
     const promise = searchHabits({
       headers: { Authorization: `Bearer ${user.token}` },

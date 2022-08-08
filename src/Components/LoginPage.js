@@ -17,14 +17,13 @@ export default function LoginPage(){
     email: "",
     password: "",
   })
-  useEffect( () => {
-  if (localStorage.getItem("userLogin") !== null) {
-    const infoUserSerialized = localStorage.getItem("userLogin");
-    const userStorage = JSON.parse(infoUserSerialized);
-    setUser(userStorage);
-    navigate("/hoje");
-  }
-  })
+  // useEffect( () => {
+  // if (localStorage.getItem("userLogin") !== null) {
+  //   const infoUserSerialized = localStorage.getItem("userLogin");
+  //   const userStorage = JSON.parse(infoUserSerialized);
+  //   setUser(userStorage);
+  //   navigate("/hoje");
+  // }})
   function submitData(event){
     event.preventDefault();
     setBlocked(true);

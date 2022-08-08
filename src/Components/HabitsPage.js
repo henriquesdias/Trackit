@@ -13,6 +13,7 @@ export default function HabitsPage(){
   const [visibilityForm, setVisibilityForm] = useState("block");
   const {user,setUser} = useContext(UserContext);
   const [myHabits , setMyHabits] = useState([]);
+  const { percentageOfHabits, setPercentageOfHabits } = useContext(UserContext);
   function getHabits(){
     const promise = listHabits({
       headers: { Authorization: `Bearer ${user.token}` },
