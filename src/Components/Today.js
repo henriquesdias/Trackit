@@ -4,6 +4,7 @@ import styled from "styled-components";
 import BackGroundPage from "./Styles/BackGroundPage";
 import UserContext from "./UserContext";
 import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import "dayjs/locale/pt";
 import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./ServiceAxios";
@@ -11,10 +12,11 @@ import { searchHabits, markHabitAsConcluded, markOffHabitAsConcluded } from "./S
 export default function Today(){
   const weekday = dayjs().locale("pt").format("dddd");
   const date = dayjs().format("DD/MM");
-  const {user} = useContext(UserContext);
+  const {user,setUser} = useContext(UserContext);
   const infoUserSerialized = JSON.stringify(user);
   localStorage.setItem("userLogin", infoUserSerialized);
   const [habitsToday, setHabitsToday] = useState([]);
+  const navigate = useNavigate();
   const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
   if (habitsToday.length === 0) {
     setPercentageOfHabits(0);
@@ -23,10 +25,9 @@ export default function Today(){
       (element) => element.done === true
     ).length;
     setPercentageOfHabits(
-      Math.floor((numberOfHabitsConcluded * 100) / habitsToday.length)
+      Math.round((numberOfHabitsConcluded * 100) / habitsToday.length)
     );
-  }
-
+  }    
   function getHabits(){
     const promise = searchHabits({
       headers: { Authorization: `Bearer ${user.token}` },
@@ -111,6 +112,7 @@ const HabitStyle = styled.div`
     color: #666666;
     h4{
       font-size: 20px;
+      max-width: 240px;
     }
     h3{
       font-size: 13px;

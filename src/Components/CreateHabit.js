@@ -11,7 +11,6 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
   const [habit, setHabit] = useState("");
   const [blocked, setBlocked] = useState(false);
   const { percentageOfHabits, setPercentageOfHabits } = useContext(UserContext);
-  console.log(percentageOfHabits);
   function getHabits(){
     const promise = listHabits({
       headers: { Authorization: `Bearer ${user.token}` },

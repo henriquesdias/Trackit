@@ -97,14 +97,16 @@ function Weekday({ children, background, color }) {
 const HabitStyle = styled.div`
   max-width: 340px;
   width: 90%;
-  height: 91px;
+  min-height: 91px;
   background-color: white;
   border-radius: 5px;
   margin: 10px auto 10px auto;
   padding: 18px 5px 18px 15px;
+  word-break: break-word;
   h1{
     font-size: 20px;
     color: #666666;
+    max-width: 300px;
   }
   > div:first-child{
     display: flex;
