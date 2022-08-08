@@ -13,7 +13,7 @@ export default function Historic(){
           <span>Histórico</span>
         </HistoricStyle>
           <p>Em breve você poderá ver o histórico dos seus hábitos aqui!</p>
-          <Calendar />
+          {/* <Calendar /> */}
         </BackGroundPage>
         <Footer/>
       </>

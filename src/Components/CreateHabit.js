@@ -23,22 +23,26 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
   }
   function sendHabit(event) {
     event.preventDefault();
+    if (daysOfHabit.length === 0) {
+      alert("Selecione pelo menos um dia");
+    } else {
     setBlocked(true);
     const body = { name: habit, days: daysOfHabit };
     const config = {
       headers: {
-        "Authorization": `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     };
     const promise = createHabit(body, config);
-    promise.then( () => {
+    promise.then(() => {
       getHabits();
       setShowForm(false);
-    })
-    promise.catch( () => {
+    });
+    promise.catch(() => {
       setBlocked(false);
       alert("Tente novamente");
-    } )
+    });      
+    }
   }
   return (
     <CreateHabitStyle visibility={visibilityForm}>
