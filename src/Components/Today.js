@@ -12,6 +12,8 @@ export default function Today(){
   const weekday = dayjs().locale("pt").format("dddd");
   const date = dayjs().format("DD/MM");
   const {user} = useContext(UserContext);
+  const infoUserSerialized = JSON.stringify(user);
+  localStorage.setItem("userLogin", infoUserSerialized);
   const [habitsToday, setHabitsToday] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits} = useContext(UserContext);
   const numberOfHabitsConcluded = habitsToday.filter( element => element.done === true).length;

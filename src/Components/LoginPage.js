@@ -2,7 +2,7 @@ import logo from "./images/logo-principal.png";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import FormStyle from "./Styles/FormStyle";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { login } from "./ServiceAxios";
@@ -11,12 +11,20 @@ import UserContext from "./UserContext";
 
 export default function LoginPage(){
   const [blocked , setBlocked] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   })
-  const {user, setUser} = useContext(UserContext);
-  const navigate = useNavigate();
+  useEffect( () => {
+  if (localStorage.getItem("userLogin") !== null) {
+    const infoUserSerialized = localStorage.getItem("userLogin");
+    const userStorage = JSON.parse(infoUserSerialized);
+    setUser(userStorage);
+    navigate("/hoje");
+  }
+  })
   function submitData(event){
     event.preventDefault();
     setBlocked(true);
@@ -75,7 +83,7 @@ export default function LoginPage(){
 const ButtonForm = styled.button`
   height: 45px;
   border: none;
-  background-color: ${(props) => (props.block ? "#86CBFC" : "#53b5fc")};
+  background-color: ${(props) => (props.disabled ? "#86CBFC" : "#53b5fc")};
   color: white;
   border-radius: 4.64px;
   margin-top: 2px;
