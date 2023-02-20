@@ -6,20 +6,20 @@ import { useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import styled from "styled-components";
 import FormStyle from "./Styles/FormStyle";
+import React from "react";
 
-
-export default function SignUp(){
+export default function SignUp() {
   const [blocked, setBlocked] = useState(false);
   const [form, setForm] = useState({
     email: "",
     name: "",
     image: "",
-    password: ""
-  })
+    password: "",
+  });
   const navigate = useNavigate();
-  function submitData(event){
+  function submitData(event) {
     event.preventDefault();
-    if (form.image.slice(0,4) !== 'http') {
+    if (form.image.slice(0, 4) !== "http") {
       alert("Coloque um formato válido de imagem");
     } else {
       setBlocked(true);
@@ -32,7 +32,6 @@ export default function SignUp(){
         setBlocked(false);
       });
     }
-
   }
   function handleForm(e) {
     setForm({
@@ -80,8 +79,8 @@ export default function SignUp(){
           readOnly={blocked}
           required
         />
-        <ButtonForm type="submit"  disabled={blocked}>
-          {!blocked  ? (
+        <ButtonForm type="submit" disabled={blocked}>
+          {!blocked ? (
             "Cadastrar"
           ) : (
             <ThreeDots color="#FFFFFF" height={80} width={80} />
@@ -98,7 +97,7 @@ export default function SignUp(){
 const ButtonForm = styled.button`
   height: 45px;
   border: none;
-  background-color: ${props => props.block  ? "#86CBFC" : "#53b5fc"};
+  background-color: ${(props) => (props.block ? "#86CBFC" : "#53b5fc")};
   color: white;
   border-radius: 4.64px;
   margin-top: 2px;

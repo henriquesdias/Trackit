@@ -1,12 +1,13 @@
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import { Link } from "react-router-dom";
-import 'react-circular-progressbar/dist/styles.css';
+import "react-circular-progressbar/dist/styles.css";
 import styled from "styled-components";
 import UserContext from "./UserContext";
 import { useContext } from "react";
+import React from "react";
 
-export default function Footer(){
-  const { percentageOfHabits} = useContext(UserContext);
+export default function Footer() {
+  const { percentageOfHabits } = useContext(UserContext);
   return (
     <FooterStyle>
       <FooterLink to="/habitos">
@@ -37,8 +38,8 @@ export default function Footer(){
   );
 }
 const FooterLink = styled(Link)`
-text-decoration: none;
-`
+  text-decoration: none;
+`;
 const FooterStyle = styled.footer`
   position: fixed;
   bottom: 0;
@@ -53,18 +54,18 @@ const FooterStyle = styled.footer`
   padding-left: 36px;
   padding-right: 36px;
   font-size: 18px;
-  font-family: 'Lexend Deca', sans-serif;
-  p{
-    color: #52B6FF;
+  font-family: "Lexend Deca", sans-serif;
+  p {
+    color: #52b6ff;
   }
-  div{
+  div {
     width: 100px;
     height: 100px;
     position: relative;
   }
-`
+`;
 const CircularProgress = styled.span`
   position: absolute;
   z-index: 2;
   bottom: 30px;
-`
+`;

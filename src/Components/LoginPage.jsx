@@ -7,26 +7,26 @@ import { ThreeDots } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { login } from "./ServiceAxios";
 import UserContext from "./UserContext";
+import React from "react";
 
-
-export default function LoginPage(){
-  const [blocked , setBlocked] = useState(false);
+export default function LoginPage() {
+  const [blocked, setBlocked] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
-  })
-  function submitData(event){
+  });
+  function submitData(event) {
     event.preventDefault();
     setBlocked(true);
     const promise = login(form);
-    promise.catch( () => {
-      alert("Dados inválidos")
+    promise.catch(() => {
+      alert("Dados inválidos");
       setBlocked(false);
     });
-    promise.then( answer => {
-      setUser(answer.data)
+    promise.then((answer) => {
+      setUser(answer.data);
       navigate("/hoje");
     });
   }

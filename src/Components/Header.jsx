@@ -2,9 +2,10 @@ import styled from "styled-components";
 import trackit from "./images/trackit.png";
 import UserContext from "./UserContext";
 import { useContext } from "react";
+import React from "react";
 
-export default function Header(){
-  const {user , setUser} = useContext(UserContext);
+export default function Header() {
+  const { user, setUser } = useContext(UserContext);
   return (
     <HeaderStyle>
       <img src={trackit} alt="trackit" />
@@ -17,14 +18,14 @@ export default function Header(){
 const ImageProfile = styled.div`
   width: 51px;
   height: 51px;
-  img{
+  img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
   }
-`
+`;
 const HeaderStyle = styled.header`
-  background-color: #126BA5;
+  background-color: #126ba5;
   height: 70px;
   width: 100%;
   display: flex;
@@ -38,4 +39,4 @@ const HeaderStyle = styled.header`
   top: 0;
   left: 0;
   right: 0;
-`
+`;
