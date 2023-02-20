@@ -1,11 +1,13 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import BackGroundPage from "./Styles/BackGroundPage";
-import styled from "styled-components";
-import "react-calendar/dist/Calendar.css";
 import React from "react";
 
+import styled from "styled-components";
 import Calendar from "react-calendar";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import BackGroundPage from "../styles/BackGroundPage";
+import "react-calendar/dist/Calendar.css";
+
 export default function Historic() {
   return (
     <>

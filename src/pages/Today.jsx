@@ -1,8 +1,8 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import styled from "styled-components";
-import BackGroundPage from "./Styles/BackGroundPage";
-import UserContext from "./UserContext";
+import BackGroundPage from "../styles/BackGroundPage";
+import UserContext from "../context/UserContext";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
@@ -11,7 +11,7 @@ import {
   searchHabits,
   markHabitAsConcluded,
   markOffHabitAsConcluded,
-} from "./ServiceAxios";
+} from "../components/ServiceAxios";
 import React from "react";
 
 export default function Today() {
@@ -34,9 +34,7 @@ export default function Today() {
     );
   }
   function getHabits() {
-    const promise = searchHabits({
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+    const promise = searchHabits();
     promise.then((answer) => {
       setHabitsToday(answer.data);
     });
@@ -87,16 +85,12 @@ function HabitToday({
   const { user } = useContext(UserContext);
   const [colorSequence, setColorSequence] = useState("");
   function checkHabit() {
-    const promise = markHabitAsConcluded(id, {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+    const promise = markHabitAsConcluded(id);
     promise.catch((answer) => console.log(answer));
     promise.then(() => getHabits());
   }
   function uncheckHabit() {
-    const promise = markOffHabitAsConcluded(id, {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+    const promise = markOffHabitAsConcluded(id);
     promise.catch((answer) => console.log(answer));
     promise.then(() => getHabits());
   }

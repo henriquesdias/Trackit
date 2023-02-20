@@ -3,17 +3,18 @@ import React from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import GlobalStyle from "./Components/Styles/reset";
-import LoginPage from "./Components/LoginPage";
-import SignUp from "./Components/SignUp";
-import HabitsPage from "./Components/HabitsPage";
-import Historic from "./Components/Historic";
-import Today from "./Components/Today";
-import UserContext from "./Components/UserContext";
+import GlobalStyle from "./styles/reset";
+import LoginPage from "./pages/LoginPage";
+import SignUp from "./pages/SignUp";
+import HabitsPage from "./pages/HabitsPage";
+import Historic from "./pages/Historic";
+import Today from "./pages/Today";
+import UserContext from "./context/UserContext";
 
 export default function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(null);
   const [percentageOfHabits, setPercentageOfHabits] = useState(0);
+
   return (
     <BrowserRouter>
       <UserContext.Provider

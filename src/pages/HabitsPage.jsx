@@ -1,12 +1,14 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
-import BackGroundPage from "./Styles/BackGroundPage";
-import CreateHabit from "./CreateHabit";
-import UserContext from "./UserContext";
-import { listHabits, deleteHabit } from "./ServiceAxios";
 import React from "react";
+import { useContext, useEffect, useState } from "react";
+
+import styled from "styled-components";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import BackGroundPage from "../styles/BackGroundPage";
+import CreateHabit from "../components/CreateHabit";
+import UserContext from "../context/UserContext";
+import { listHabits, deleteHabit } from "../components/ServiceAxios";
 
 export default function HabitsPage() {
   const [showForm, setShowForm] = useState(false);
@@ -15,9 +17,7 @@ export default function HabitsPage() {
   const [myHabits, setMyHabits] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits } = useContext(UserContext);
   function getHabits() {
-    const promise = listHabits({
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+    const promise = listHabits();
     promise.then((answer) => setMyHabits(answer.data));
     promise.catch((answer) => console.log(answer));
   }
@@ -75,9 +75,7 @@ function Habit({ name, daysOfHabit, idHabit, getHabits }) {
   function excludeHabit(idHabit) {
     const answer = window.confirm("Deseja excluir o hábito selecionado ?");
     if (answer === true) {
-      const promise = deleteHabit(idHabit, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
+      const promise = deleteHabit(idHabit);
       promise.then(() => {
         getHabits();
       });
