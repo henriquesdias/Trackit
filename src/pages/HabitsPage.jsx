@@ -1,23 +1,23 @@
-import Header from "./Header";
-import Footer from "./Footer";
-import styled from "styled-components";
+import React from "react";
 import { useContext, useEffect, useState } from "react";
-import BackGroundPage from "./Styles/BackGroundPage";
-import CreateHabit from "./CreateHabit";
-import UserContext from "./UserContext";
-import { listHabits, deleteHabit } from "./ServiceAxios";
 
+import styled from "styled-components";
 
-export default function HabitsPage(){
-  const [showForm , setShowForm] = useState(false);
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import BackGroundPage from "../styles/BackGroundPage";
+import CreateHabit from "../components/CreateHabit";
+import UserContext from "../context/UserContext";
+import { listHabits, deleteHabit } from "../components/ServiceAxios";
+
+export default function HabitsPage() {
+  const [showForm, setShowForm] = useState(false);
   const [visibilityForm, setVisibilityForm] = useState("block");
-  const {user,setUser} = useContext(UserContext);
-  const [myHabits , setMyHabits] = useState([]);
+  const { user, setUser } = useContext(UserContext);
+  const [myHabits, setMyHabits] = useState([]);
   const { percentageOfHabits, setPercentageOfHabits } = useContext(UserContext);
-  function getHabits(){
-    const promise = listHabits({
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+  function getHabits() {
+    const promise = listHabits();
     promise.then((answer) => setMyHabits(answer.data));
     promise.catch((answer) => console.log(answer));
   }
@@ -30,59 +30,79 @@ export default function HabitsPage(){
       <BackGroundPage>
         <MyHabits>
           <span>Meus hábitos</span>
-          <AddHabit onClick={()=> {
-            setShowForm(true);
-            setVisibilityForm("block");
-          }
-            }>+</AddHabit>
+          <AddHabit
+            onClick={() => {
+              setShowForm(true);
+              setVisibilityForm("block");
+            }}
+          >
+            +
+          </AddHabit>
         </MyHabits>
-        {showForm ? <CreateHabit 
-        setShowForm={setShowForm} 
-        visibilityForm={visibilityForm} 
-        setVisibilityForm={setVisibilityForm} 
-        setMyHabits={setMyHabits} /> : ""}
-        {myHabits.length !== 0 ? myHabits.map( element => (
-        <Habit 
-        key={element.id} 
-        idHabit={element.id} 
-        name={element.name} 
-        daysOfHabit={element.days} 
-        getHabits={getHabits}/>) ) :  
-        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>}
+        {showForm ? (
+          <CreateHabit
+            setShowForm={setShowForm}
+            visibilityForm={visibilityForm}
+            setVisibilityForm={setVisibilityForm}
+            setMyHabits={setMyHabits}
+          />
+        ) : (
+          ""
+        )}
+        {myHabits.length !== 0 ? (
+          myHabits.map((element) => (
+            <Habit
+              key={element.id}
+              idHabit={element.id}
+              name={element.name}
+              daysOfHabit={element.days}
+              getHabits={getHabits}
+            />
+          ))
+        ) : (
+          <p>
+            Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
+            começar a trackear!
+          </p>
+        )}
       </BackGroundPage>
       <Footer />
     </>
   );
 }
-function Habit({name, daysOfHabit,idHabit,getHabits}){
-  const {user} = useContext(UserContext);
+function Habit({ name, daysOfHabit, idHabit, getHabits }) {
+  const { user } = useContext(UserContext);
   function excludeHabit(idHabit) {
     const answer = window.confirm("Deseja excluir o hábito selecionado ?");
-      if (answer === true) {
-        const promise = deleteHabit(idHabit, {headers: { Authorization: `Bearer ${user.token}` }})
-        promise.then( () => {
-          getHabits();
-        } ); 
-        promise.catch( answer => console.log(answer) ); 
-      }
+    if (answer === true) {
+      const promise = deleteHabit(idHabit);
+      promise.then(() => {
+        getHabits();
+      });
+      promise.catch((answer) => console.log(answer));
+    }
   }
   return (
     <HabitStyle>
       <div>
         <h1>{name}</h1>
-        <ion-icon name="trash-outline" onClick={()=> excludeHabit(idHabit) }></ion-icon>
+        <ion-icon
+          name="trash-outline"
+          onClick={() => excludeHabit(idHabit)}
+        ></ion-icon>
       </div>
       <Weekdays>
-        {days.map( (day, index) => (
-          daysOfHabit.includes(index) ? 
+        {days.map((day, index) =>
+          daysOfHabit.includes(index) ? (
             <Weekday key={index} background={"#d4d4d4"} color={"white"}>
               {day}
-            </Weekday> :  
+            </Weekday>
+          ) : (
             <Weekday key={index} background={"white"} color={"#d4d4d4"}>
               {day}
             </Weekday>
-        )
-      )}
+          )
+        )}
       </Weekdays>
     </HabitStyle>
   );
@@ -103,20 +123,20 @@ const HabitStyle = styled.div`
   margin: 10px auto 10px auto;
   padding: 18px 5px 18px 15px;
   word-break: break-word;
-  h1{
+  h1 {
     font-size: 20px;
     color: #666666;
     max-width: 300px;
   }
-  > div:first-child{
+  > div:first-child {
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
   }
-  ion-icon{
+  ion-icon {
     font-size: 20px;
   }
-`
+`;
 const days = ["D", "S", "T", "Q", "Q", "S", "S"];
 const WeekdayStyle = styled.div`
   display: flex;
@@ -142,9 +162,9 @@ const MyHabits = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 const AddHabit = styled.div`
-  background-color: #52B6FF;
+  background-color: #52b6ff;
   width: 40px;
   height: 35px;
   border-radius: 4.6px;
@@ -153,4 +173,4 @@ const AddHabit = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`
+`;

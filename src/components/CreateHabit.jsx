@@ -1,20 +1,26 @@
-import UserContext from "./UserContext";
-import { createHabit , listHabits} from "./ServiceAxios";
-import { ThreeDots } from "react-loader-spinner";
 import { useContext, useState } from "react";
+import React from "react";
+
 import styled from "styled-components";
+import { ThreeDots } from "react-loader-spinner";
 
+import UserContext from "../context/UserContext";
+import { createHabit, listHabits } from "./ServiceAxios";
+import { Weekday } from "./Weekday";
 
-export default function CreateHabit({ visibilityForm, setVisibilityForm, setShowForm, setMyHabits}) {
+export default function CreateHabit({
+  visibilityForm,
+  setVisibilityForm,
+  setShowForm,
+  setMyHabits,
+}) {
   const [daysOfHabit, setDaysOfHabit] = useState([]);
   const { user } = useContext(UserContext);
   const [habit, setHabit] = useState("");
   const [blocked, setBlocked] = useState(false);
   const { percentageOfHabits, setPercentageOfHabits } = useContext(UserContext);
-  function getHabits(){
-    const promise = listHabits({
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
+  function getHabits() {
+    const promise = listHabits();
     promise.then((answer) => {
       setMyHabits(answer.data);
     });
@@ -25,22 +31,17 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
     if (daysOfHabit.length === 0) {
       alert("Selecione pelo menos um dia");
     } else {
-    setBlocked(true);
-    const body = { name: habit, days: daysOfHabit };
-    const config = {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    };
-    const promise = createHabit(body, config);
-    promise.then(() => {
-      getHabits();
-      setShowForm(false);
-    });
-    promise.catch(() => {
-      setBlocked(false);
-      alert("Tente novamente");
-    });      
+      setBlocked(true);
+      const body = { name: habit, days: daysOfHabit };
+      const promise = createHabit(body);
+      promise.then(() => {
+        getHabits();
+        setShowForm(false);
+      });
+      promise.catch(() => {
+        setBlocked(false);
+        alert("Tente novamente");
+      });
     }
   }
   return (
@@ -87,44 +88,9 @@ export default function CreateHabit({ visibilityForm, setVisibilityForm, setShow
     </CreateHabitStyle>
   );
 }
-function Weekday({ children, daysOfHabit, setDaysOfHabit, index, blocked }) {
-  const [background, setBackground] = useState("white");
-  const [color, setColor] = useState("#d4d4d4");
-  return (
-    <WeekdayStyle
-      background={background}
-      color={color}
-      onClick={() => {
-        if (background === "white" && !blocked) {
-          setBackground("#d4d4d4");
-          setColor("white");
-          setDaysOfHabit([...daysOfHabit, index]);
-        } else if (!blocked) {
-          setBackground("white");
-          setColor("#d4d4d4");
-          setDaysOfHabit([
-            ...daysOfHabit.filter((element) => element !== index),
-          ]);
-        }
-      }}
-    >
-      {children}
-    </WeekdayStyle>
-  );
-}
+
 const days = ["D", "S", "T", "Q", "Q", "S", "S"];
-const WeekdayStyle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => props.color};
-  width: 30px;
-  height: 30px;
-  border: 1px solid #d4d4d4;
-  border-radius: 5px;
-  font-size: 20px;
-  background-color: ${(props) => props.background};
-`;
+
 const Weekdays = styled.div`
   display: flex;
   width: 234px;
