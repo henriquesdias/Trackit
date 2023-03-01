@@ -1,18 +1,19 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import styled from "styled-components";
-import BackGroundPage from "../styles/BackGroundPage";
-import UserContext from "../context/UserContext";
 import { useContext, useState, useEffect } from "react";
+
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import BackGroundPage from "../styles/BackGroundPage";
+import UserContext from "../context/UserContext";
 import "dayjs/locale/pt";
 import {
   searchHabits,
   markHabitAsConcluded,
   markOffHabitAsConcluded,
 } from "../components/ServiceAxios";
-import React from "react";
 
 export default function Today() {
   const weekday = dayjs().locale("pt").format("dddd");
