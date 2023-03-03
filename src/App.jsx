@@ -13,6 +13,10 @@ import UserContext from "./context/UserContext";
 export default function App() {
   const [user, setUser] = useState(null);
   const [percentageOfHabits, setPercentageOfHabits] = useState(0);
+  const userLogin = JSON.parse(localStorage.getItem("userLogin"));
+  if (userLogin !== null && user === null) {
+    setUser(userLogin);
+  }
 
   return (
     <BrowserRouter>
