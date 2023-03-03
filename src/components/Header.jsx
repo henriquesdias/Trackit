@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import React from "react";
 
 import trackit from "../images/trackit.png";
 import UserContext from "../context/UserContext";
